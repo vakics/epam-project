@@ -1,0 +1,153 @@
+-------------------------------------------------------------------------------
+Test set: com.training.epam.ticketservice.at.TestExecutor
+-------------------------------------------------------------------------------
+Tests run: 17, Failures: 2, Errors: 15, Skipped: 0, Time elapsed: 232.829 sec <<< FAILURE!
+the admin account exists by default and can be logged in with the correct password(allow creating accounts and logging in)  Time elapsed: 0.53 sec  <<< FAILURE!
+java.lang.AssertionError: The service is not running.
+	at com.training.epam.ticketservice.at.ProcessUnderTest.verifyProcessIsRunning(ProcessUnderTest.java:92)
+	at com.training.epam.ticketservice.at.ProcessUnderTest.run(ProcessUnderTest.java:37)
+	at com.training.epam.ticketservice.at.GenericCliProcessStepDefs.applicationStarted(GenericCliProcessStepDefs.java:27)
+	at ?.the application is started(file:///D:/egyetem/5.félév/Java%20fejlesztés/epam-deik-java-dev/final/ticket-service-acceptance-tests/src/test/resources/features/accounts.feature:4)
+
+the admin account can be signed out(allow creating accounts and logging in)  Time elapsed: 0.172 sec  <<< FAILURE!
+java.lang.AssertionError: The service is not running.
+	at com.training.epam.ticketservice.at.ProcessUnderTest.verifyProcessIsRunning(ProcessUnderTest.java:92)
+	at com.training.epam.ticketservice.at.ProcessUnderTest.run(ProcessUnderTest.java:37)
+	at com.training.epam.ticketservice.at.GenericCliProcessStepDefs.applicationStarted(GenericCliProcessStepDefs.java:27)
+	at ?.the application is started(file:///D:/egyetem/5.félév/Java%20fejlesztés/epam-deik-java-dev/final/ticket-service-acceptance-tests/src/test/resources/features/accounts.feature:4)
+
+the admin account can not be logged in with incorrect password(allow creating accounts and logging in)  Time elapsed: 15.176 sec  <<< ERROR!
+java.util.concurrent.TimeoutException
+	at java.base/java.util.concurrent.FutureTask.get(FutureTask.java:204)
+	at com.google.common.util.concurrent.SimpleTimeLimiter.callWithTimeout(SimpleTimeLimiter.java:155)
+	at com.training.epam.ticketservice.at.ProcessUnderTest.runWithTimeout(ProcessUnderTest.java:87)
+	at com.training.epam.ticketservice.at.ProcessUnderTest.waitForOutput(ProcessUnderTest.java:42)
+	at com.training.epam.ticketservice.at.GenericCliProcessStepDefs.promptReturned(GenericCliProcessStepDefs.java:32)
+	at ?.the prompt containing "Ticket service>" is printed(file:///D:/egyetem/5.félév/Java%20fejlesztés/epam-deik-java-dev/final/ticket-service-acceptance-tests/src/test/resources/features/accounts.feature:5)
+
+an admin user can create and list movies(allows creating movie descriptions)  Time elapsed: 15.188 sec  <<< ERROR!
+java.util.concurrent.TimeoutException
+	at java.base/java.util.concurrent.FutureTask.get(FutureTask.java:204)
+	at com.google.common.util.concurrent.SimpleTimeLimiter.callWithTimeout(SimpleTimeLimiter.java:155)
+	at com.training.epam.ticketservice.at.ProcessUnderTest.runWithTimeout(ProcessUnderTest.java:87)
+	at com.training.epam.ticketservice.at.ProcessUnderTest.waitForOutput(ProcessUnderTest.java:42)
+	at com.training.epam.ticketservice.at.GenericCliProcessStepDefs.promptReturned(GenericCliProcessStepDefs.java:32)
+	at ?.the prompt containing "Ticket service>" is printed(file:///D:/egyetem/5.félév/Java%20fejlesztés/epam-deik-java-dev/final/ticket-service-acceptance-tests/src/test/resources/features/movies.feature:4)
+
+an admin user can update a movie(allows creating movie descriptions)  Time elapsed: 15.174 sec  <<< ERROR!
+java.util.concurrent.TimeoutException
+	at java.base/java.util.concurrent.FutureTask.get(FutureTask.java:204)
+	at com.google.common.util.concurrent.SimpleTimeLimiter.callWithTimeout(SimpleTimeLimiter.java:155)
+	at com.training.epam.ticketservice.at.ProcessUnderTest.runWithTimeout(ProcessUnderTest.java:87)
+	at com.training.epam.ticketservice.at.ProcessUnderTest.waitForOutput(ProcessUnderTest.java:42)
+	at com.training.epam.ticketservice.at.GenericCliProcessStepDefs.promptReturned(GenericCliProcessStepDefs.java:32)
+	at ?.the prompt containing "Ticket service>" is printed(file:///D:/egyetem/5.félév/Java%20fejlesztés/epam-deik-java-dev/final/ticket-service-acceptance-tests/src/test/resources/features/movies.feature:4)
+
+an admin user can delete a movie(allows creating movie descriptions)  Time elapsed: 15.202 sec  <<< ERROR!
+java.util.concurrent.TimeoutException
+	at java.base/java.util.concurrent.FutureTask.get(FutureTask.java:204)
+	at com.google.common.util.concurrent.SimpleTimeLimiter.callWithTimeout(SimpleTimeLimiter.java:155)
+	at com.training.epam.ticketservice.at.ProcessUnderTest.runWithTimeout(ProcessUnderTest.java:87)
+	at com.training.epam.ticketservice.at.ProcessUnderTest.waitForOutput(ProcessUnderTest.java:42)
+	at com.training.epam.ticketservice.at.GenericCliProcessStepDefs.promptReturned(GenericCliProcessStepDefs.java:32)
+	at ?.the prompt containing "Ticket service>" is printed(file:///D:/egyetem/5.félév/Java%20fejlesztés/epam-deik-java-dev/final/ticket-service-acceptance-tests/src/test/resources/features/movies.feature:4)
+
+an unauthenticated user can list movies(allows creating movie descriptions)  Time elapsed: 15.22 sec  <<< ERROR!
+java.util.concurrent.TimeoutException
+	at java.base/java.util.concurrent.FutureTask.get(FutureTask.java:204)
+	at com.google.common.util.concurrent.SimpleTimeLimiter.callWithTimeout(SimpleTimeLimiter.java:155)
+	at com.training.epam.ticketservice.at.ProcessUnderTest.runWithTimeout(ProcessUnderTest.java:87)
+	at com.training.epam.ticketservice.at.ProcessUnderTest.waitForOutput(ProcessUnderTest.java:42)
+	at com.training.epam.ticketservice.at.GenericCliProcessStepDefs.promptReturned(GenericCliProcessStepDefs.java:32)
+	at ?.the prompt containing "Ticket service>" is printed(file:///D:/egyetem/5.félév/Java%20fejlesztés/epam-deik-java-dev/final/ticket-service-acceptance-tests/src/test/resources/features/movies.feature:4)
+
+an admin user can create and list rooms(allow creating, reading, updating and deleting rooms where the screenings will happen)  Time elapsed: 15.213 sec  <<< ERROR!
+java.util.concurrent.TimeoutException
+	at java.base/java.util.concurrent.FutureTask.get(FutureTask.java:204)
+	at com.google.common.util.concurrent.SimpleTimeLimiter.callWithTimeout(SimpleTimeLimiter.java:155)
+	at com.training.epam.ticketservice.at.ProcessUnderTest.runWithTimeout(ProcessUnderTest.java:87)
+	at com.training.epam.ticketservice.at.ProcessUnderTest.waitForOutput(ProcessUnderTest.java:42)
+	at com.training.epam.ticketservice.at.GenericCliProcessStepDefs.promptReturned(GenericCliProcessStepDefs.java:32)
+	at ?.the prompt containing "Ticket service>" is printed(file:///D:/egyetem/5.félév/Java%20fejlesztés/epam-deik-java-dev/final/ticket-service-acceptance-tests/src/test/resources/features/rooms.feature:5)
+
+an admin user can update a room(allow creating, reading, updating and deleting rooms where the screenings will happen)  Time elapsed: 15.348 sec  <<< ERROR!
+java.util.concurrent.TimeoutException
+	at java.base/java.util.concurrent.FutureTask.get(FutureTask.java:204)
+	at com.google.common.util.concurrent.SimpleTimeLimiter.callWithTimeout(SimpleTimeLimiter.java:155)
+	at com.training.epam.ticketservice.at.ProcessUnderTest.runWithTimeout(ProcessUnderTest.java:87)
+	at com.training.epam.ticketservice.at.ProcessUnderTest.waitForOutput(ProcessUnderTest.java:42)
+	at com.training.epam.ticketservice.at.GenericCliProcessStepDefs.promptReturned(GenericCliProcessStepDefs.java:32)
+	at ?.the prompt containing "Ticket service>" is printed(file:///D:/egyetem/5.félév/Java%20fejlesztés/epam-deik-java-dev/final/ticket-service-acceptance-tests/src/test/resources/features/rooms.feature:5)
+
+an admin user can delete a room(allow creating, reading, updating and deleting rooms where the screenings will happen)  Time elapsed: 15.377 sec  <<< ERROR!
+java.util.concurrent.TimeoutException
+	at java.base/java.util.concurrent.FutureTask.get(FutureTask.java:204)
+	at com.google.common.util.concurrent.SimpleTimeLimiter.callWithTimeout(SimpleTimeLimiter.java:155)
+	at com.training.epam.ticketservice.at.ProcessUnderTest.runWithTimeout(ProcessUnderTest.java:87)
+	at com.training.epam.ticketservice.at.ProcessUnderTest.waitForOutput(ProcessUnderTest.java:42)
+	at com.training.epam.ticketservice.at.GenericCliProcessStepDefs.promptReturned(GenericCliProcessStepDefs.java:32)
+	at ?.the prompt containing "Ticket service>" is printed(file:///D:/egyetem/5.félév/Java%20fejlesztés/epam-deik-java-dev/final/ticket-service-acceptance-tests/src/test/resources/features/rooms.feature:5)
+
+an unauthenticated user can list rooms(allow creating, reading, updating and deleting rooms where the screenings will happen)  Time elapsed: 15.341 sec  <<< ERROR!
+java.util.concurrent.TimeoutException
+	at java.base/java.util.concurrent.FutureTask.get(FutureTask.java:204)
+	at com.google.common.util.concurrent.SimpleTimeLimiter.callWithTimeout(SimpleTimeLimiter.java:155)
+	at com.training.epam.ticketservice.at.ProcessUnderTest.runWithTimeout(ProcessUnderTest.java:87)
+	at com.training.epam.ticketservice.at.ProcessUnderTest.waitForOutput(ProcessUnderTest.java:42)
+	at com.training.epam.ticketservice.at.GenericCliProcessStepDefs.promptReturned(GenericCliProcessStepDefs.java:32)
+	at ?.the prompt containing "Ticket service>" is printed(file:///D:/egyetem/5.félév/Java%20fejlesztés/epam-deik-java-dev/final/ticket-service-acceptance-tests/src/test/resources/features/rooms.feature:5)
+
+The admin user can create and query screenings(allows creating, deleting and listing screenings)  Time elapsed: 15.497 sec  <<< ERROR!
+java.util.concurrent.TimeoutException
+	at java.base/java.util.concurrent.FutureTask.get(FutureTask.java:204)
+	at com.google.common.util.concurrent.SimpleTimeLimiter.callWithTimeout(SimpleTimeLimiter.java:155)
+	at com.training.epam.ticketservice.at.ProcessUnderTest.runWithTimeout(ProcessUnderTest.java:87)
+	at com.training.epam.ticketservice.at.ProcessUnderTest.waitForOutput(ProcessUnderTest.java:42)
+	at com.training.epam.ticketservice.at.GenericCliProcessStepDefs.promptReturned(GenericCliProcessStepDefs.java:32)
+	at ?.the prompt containing "Ticket service>" is printed(file:///D:/egyetem/5.félév/Java%20fejlesztés/epam-deik-java-dev/final/ticket-service-acceptance-tests/src/test/resources/features/screenings.feature:4)
+
+The admin can not create overlapping screenings in the same room(allows creating, deleting and listing screenings)  Time elapsed: 15.553 sec  <<< ERROR!
+java.util.concurrent.TimeoutException
+	at java.base/java.util.concurrent.FutureTask.get(FutureTask.java:204)
+	at com.google.common.util.concurrent.SimpleTimeLimiter.callWithTimeout(SimpleTimeLimiter.java:155)
+	at com.training.epam.ticketservice.at.ProcessUnderTest.runWithTimeout(ProcessUnderTest.java:87)
+	at com.training.epam.ticketservice.at.ProcessUnderTest.waitForOutput(ProcessUnderTest.java:42)
+	at com.training.epam.ticketservice.at.GenericCliProcessStepDefs.promptReturned(GenericCliProcessStepDefs.java:32)
+	at ?.the prompt containing "Ticket service>" is printed(file:///D:/egyetem/5.félév/Java%20fejlesztés/epam-deik-java-dev/final/ticket-service-acceptance-tests/src/test/resources/features/screenings.feature:4)
+
+The admin can create overlapping screenings in different rooms(allows creating, deleting and listing screenings)  Time elapsed: 15.702 sec  <<< ERROR!
+java.util.concurrent.TimeoutException
+	at java.base/java.util.concurrent.FutureTask.get(FutureTask.java:204)
+	at com.google.common.util.concurrent.SimpleTimeLimiter.callWithTimeout(SimpleTimeLimiter.java:155)
+	at com.training.epam.ticketservice.at.ProcessUnderTest.runWithTimeout(ProcessUnderTest.java:87)
+	at com.training.epam.ticketservice.at.ProcessUnderTest.waitForOutput(ProcessUnderTest.java:42)
+	at com.training.epam.ticketservice.at.GenericCliProcessStepDefs.promptReturned(GenericCliProcessStepDefs.java:32)
+	at ?.the prompt containing "Ticket service>" is printed(file:///D:/egyetem/5.félév/Java%20fejlesztés/epam-deik-java-dev/final/ticket-service-acceptance-tests/src/test/resources/features/screenings.feature:4)
+
+The admin can not create screenings during a 10 minute long breaks after another screening in the same room(allows creating, deleting and listing screenings)  Time elapsed: 15.561 sec  <<< ERROR!
+java.util.concurrent.TimeoutException
+	at java.base/java.util.concurrent.FutureTask.get(FutureTask.java:204)
+	at com.google.common.util.concurrent.SimpleTimeLimiter.callWithTimeout(SimpleTimeLimiter.java:155)
+	at com.training.epam.ticketservice.at.ProcessUnderTest.runWithTimeout(ProcessUnderTest.java:87)
+	at com.training.epam.ticketservice.at.ProcessUnderTest.waitForOutput(ProcessUnderTest.java:42)
+	at com.training.epam.ticketservice.at.GenericCliProcessStepDefs.promptReturned(GenericCliProcessStepDefs.java:32)
+	at ?.the prompt containing "Ticket service>" is printed(file:///D:/egyetem/5.félév/Java%20fejlesztés/epam-deik-java-dev/final/ticket-service-acceptance-tests/src/test/resources/features/screenings.feature:4)
+
+The admin can create screenings even if there is a break after a screening in a different room(allows creating, deleting and listing screenings)  Time elapsed: 15.374 sec  <<< ERROR!
+java.util.concurrent.TimeoutException
+	at java.base/java.util.concurrent.FutureTask.get(FutureTask.java:204)
+	at com.google.common.util.concurrent.SimpleTimeLimiter.callWithTimeout(SimpleTimeLimiter.java:155)
+	at com.training.epam.ticketservice.at.ProcessUnderTest.runWithTimeout(ProcessUnderTest.java:87)
+	at com.training.epam.ticketservice.at.ProcessUnderTest.waitForOutput(ProcessUnderTest.java:42)
+	at com.training.epam.ticketservice.at.GenericCliProcessStepDefs.promptReturned(GenericCliProcessStepDefs.java:32)
+	at ?.the prompt containing "Ticket service>" is printed(file:///D:/egyetem/5.félév/Java%20fejlesztés/epam-deik-java-dev/final/ticket-service-acceptance-tests/src/test/resources/features/screenings.feature:4)
+
+The admin user can delete screenings(allows creating, deleting and listing screenings)  Time elapsed: 15.82 sec  <<< ERROR!
+java.util.concurrent.TimeoutException
+	at java.base/java.util.concurrent.FutureTask.get(FutureTask.java:204)
+	at com.google.common.util.concurrent.SimpleTimeLimiter.callWithTimeout(SimpleTimeLimiter.java:155)
+	at com.training.epam.ticketservice.at.ProcessUnderTest.runWithTimeout(ProcessUnderTest.java:87)
+	at com.training.epam.ticketservice.at.ProcessUnderTest.waitForOutput(ProcessUnderTest.java:42)
+	at com.training.epam.ticketservice.at.GenericCliProcessStepDefs.promptReturned(GenericCliProcessStepDefs.java:32)
+	at ?.the prompt containing "Ticket service>" is printed(file:///D:/egyetem/5.félév/Java%20fejlesztés/epam-deik-java-dev/final/ticket-service-acceptance-tests/src/test/resources/features/screenings.feature:4)
+
