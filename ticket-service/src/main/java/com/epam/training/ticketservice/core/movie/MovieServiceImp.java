@@ -1,8 +1,6 @@
 package com.epam.training.ticketservice.core.movie;
 
 import com.epam.training.ticketservice.core.movie.model.Movie;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Component;
 
 import java.util.LinkedList;
@@ -47,8 +45,7 @@ public class MovieServiceImp implements MovieService {
     }
 
     @Override
-    public List<Movie> deleteMovie(String title) {
+    public void deleteMovie(String title) {
         movies = movies.stream().filter(movie1 -> !movie1.getTitle().equals(title)).collect(Collectors.toList());
-        return movies;
     }
 }
