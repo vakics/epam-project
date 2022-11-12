@@ -8,8 +8,8 @@ public class Movie {
     String genre;
     Integer lengthInMinutes;
 
-    public String toString(){
-        return title+" ("+genre+", "+lengthInMinutes+")\n";
+    public String toString() {
+        return title + " (" + genre + ", " + lengthInMinutes + ")";
     }
 
     public static Builder builder() {
