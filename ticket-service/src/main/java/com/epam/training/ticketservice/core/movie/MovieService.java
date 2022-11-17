@@ -1,15 +1,15 @@
 package com.epam.training.ticketservice.core.movie;
 
-import com.epam.training.ticketservice.core.movie.model.Movie;
+import com.epam.training.ticketservice.core.movie.model.MovieDto;
 
 import java.util.List;
 
 public interface MovieService {
-    List<Movie> getMovieList();
+    List<MovieDto> getMovieList();
 
-    Movie getMovieByTitle(String title);
+    MovieDto getMovieByTitle(String title);
 
-    void createMovie(Movie movie);
+    void createMovie(MovieDto movieDto);
 
     void updateMovie(String title,String genre,Integer lengthInMinutes);
 

@@ -1,16 +1,16 @@
 package com.epam.training.ticketservice.core.screening;
 
-import com.epam.training.ticketservice.core.screening.model.Screening;
+import com.epam.training.ticketservice.core.screening.model.ScreeningDto;
 
 import java.text.ParseException;
 import java.util.List;
 
 public interface ScreeningService {
-    List<Screening> getScreenings();
+    List<ScreeningDto> getScreenings();
 
     void deleteScreening(String movieTitle,String roomName,String screeningBegins);
 
-    void createScreening(Screening screening);
+    void createScreening(ScreeningDto screeningDto);
 
     boolean isOverlapping(String screeningBegins, String movieTitle, String roomName) throws ParseException;
 

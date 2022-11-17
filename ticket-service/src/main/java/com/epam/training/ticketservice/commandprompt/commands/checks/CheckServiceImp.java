@@ -1,26 +1,21 @@
 package com.epam.training.ticketservice.commandprompt.commands.checks;
 
-import com.epam.training.ticketservice.core.movie.MovieServiceImp;
-import com.epam.training.ticketservice.core.room.RoomServiceImp;
-import org.springframework.stereotype.Component;
+import com.epam.training.ticketservice.core.movie.persistence.repository.MovieRepository;
+import com.epam.training.ticketservice.core.room.persistence.repository.RoomRepository;
+import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Service;
 
-@Component
+@Service
+@AllArgsConstructor
 public class CheckServiceImp implements CheckService {
-    @Override
-    public boolean checkMovie(String title) throws Exception {
-        MovieServiceImp movieService = new MovieServiceImp();
-        if (movieService.getMovieByTitle(title) == null) {
-            throw new Exception("There is no movie with that title");
-        }
-        return true;
+    private final MovieRepository movieRepository;
+    private final RoomRepository roomRepository;
+
+    public boolean isExistingMovie(String title) {
+        return movieRepository.findByTitle(title) != null;
     }
 
-    @Override
-    public boolean checkRoom(String name) throws Exception {
-        RoomServiceImp roomService = new RoomServiceImp();
-        if (roomService.getRoomByName(name) == null) {
-            throw new Exception("There is no room with that name");
-        }
-        return true;
+    public boolean isExistingRoom(String name) {
+        return roomRepository.findByName(name) != null;
     }
 }

@@ -1,3 +1,5 @@
-target/
-.idea
 *.iml
+/ticket-service/target/
+/.idea/
+/ticket-service-acceptance-tests/target/
+/ticket-service-acceptance-tests/spring-shell.log

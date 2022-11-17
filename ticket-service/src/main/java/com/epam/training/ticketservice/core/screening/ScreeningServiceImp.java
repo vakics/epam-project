@@ -1,57 +1,64 @@
 package com.epam.training.ticketservice.core.screening;
 
-import com.epam.training.ticketservice.core.movie.MovieServiceImp;
-import com.epam.training.ticketservice.core.screening.model.Screening;
-import org.springframework.stereotype.Component;
+import com.epam.training.ticketservice.core.movie.persistence.repository.MovieRepository;
+import com.epam.training.ticketservice.core.screening.model.ScreeningDto;
+import com.epam.training.ticketservice.core.screening.persistence.entity.Screening;
+import com.epam.training.ticketservice.core.screening.persistence.repository.ScreeningRepository;
+import com.epam.training.ticketservice.core.user.UserService;
+import com.epam.training.ticketservice.core.user.persistence.entity.User;
+import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Service;
 import org.tinylog.Logger;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.LinkedList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
-@Component
+@Service
+@AllArgsConstructor
 public class ScreeningServiceImp implements ScreeningService {
-    private List<Screening> screenings = new LinkedList<>(List.of(
-            Screening.builder().withMovieTitle("Encanto")
-            .withRoomName("Jó név")
-            .withScreeningBegins("2022-11-05 10:00")
-            .build()
-    ));
+    private final MovieRepository movieRepository;
+    private final ScreeningRepository screeningRepository;
+    private final UserService userService;
 
     @Override
-    public List<Screening> getScreenings() {
-        return screenings;
+    public List<ScreeningDto> getScreenings() {
+        return screeningRepository.findAll().stream().map(this::convertEntityToDto).collect(Collectors.toList());
     }
 
     @Override
     public void deleteScreening(String movieTitle, String roomName, String screeningBegins) {
-        screenings = screenings.stream().filter(screening -> screening.equals(
-                new Screening(movieTitle, roomName, screeningBegins))).collect(Collectors.toList());
+        if (userService.describe().isPresent() && userService.describe().get().getRole().equals(User.Role.ADMIN)) {
+            screeningRepository.delete(screeningRepository.findByMovieTitleAndRoomNameAndScreeningBegins(
+                    movieTitle, roomName, screeningBegins));
+        }
     }
 
     @Override
-    public void createScreening(Screening screening) {
-        screenings.add(screening);
+    public void createScreening(ScreeningDto screeningDto) {
+        if (userService.describe().isPresent() && userService.describe().get().getRole().equals(User.Role.ADMIN)) {
+            Screening screening = new Screening(screeningDto.getMovieTitle(),
+                    screeningDto.getRoomName(), screeningDto.getScreeningBegins());
+            screeningRepository.save(screening);
+        }
     }
 
     @Override
     public boolean isOverlapping(String screeningBegins, String movieTitle, String roomName) throws ParseException {
-        MovieServiceImp movieService = new MovieServiceImp();
-        int lengthInMinutes = movieService.getMovieByTitle(movieTitle).getLengthInMinutes();
+        int lengthInMinutes = movieRepository.findByTitle(movieTitle).getLengthInMinutes();
         Date ending = getEndingTime(screeningBegins,lengthInMinutes);
-        Logger.debug("ending is {}",ending);
         Date beginning = new SimpleDateFormat("yyyy-MM-dd HH:mm").parse(screeningBegins);
-        for (Screening screening:screenings) {
-            if (!roomName.equals(screening.getRoomName())) {
+        for (ScreeningDto screeningDto : getScreenings()) {
+            if (!roomName.equals(screeningDto.getRoomName())) {
                 continue;
             }
-            int movieLength = movieService.getMovieByTitle(screening.getMovieTitle()).getLengthInMinutes();
+            int movieLength = movieRepository.findByTitle(screeningDto.getMovieTitle()).getLengthInMinutes();
             try {
-                Date begins = new SimpleDateFormat("yyyy-MM-dd HH:mm").parse(screening.getScreeningBegins());
-                Date ends = getEndingTime(screening.getScreeningBegins(),movieLength);
+                Date begins = new SimpleDateFormat("yyyy-MM-dd HH:mm").parse(screeningDto.getScreeningBegins());
+                Date ends = getEndingTime(screeningDto.getScreeningBegins(),movieLength);
                 if ((begins.getTime() <= beginning.getTime() && beginning.getTime() <= ends.getTime())
                         || (begins.getTime() <= ending.getTime() && ending.getTime() <= ends.getTime())) {
                     return true;
@@ -65,14 +72,13 @@ public class ScreeningServiceImp implements ScreeningService {
 
     @Override
     public boolean isBreakTimeAfter(String movieTitle, String roomName, String screeningBegins) throws ParseException {
-        MovieServiceImp movieService = new MovieServiceImp();
         Date beginning = new SimpleDateFormat("yyyy-MM-dd HH:mm").parse(screeningBegins);
-        for (Screening screening:screenings) {
-            if (!screening.getRoomName().equals(roomName)) {
+        for (ScreeningDto screeningDto : getScreenings()) {
+            if (!screeningDto.getRoomName().equals(roomName)) {
                 continue;
             }
-            int movieLength = movieService.getMovieByTitle(screening.getMovieTitle()).getLengthInMinutes();
-            Date breakStarting = getEndingTime(screening.getScreeningBegins(),movieLength);
+            int movieLength = movieRepository.findByTitle(screeningDto.getMovieTitle()).getLengthInMinutes();
+            Date breakStarting = getEndingTime(screeningDto.getScreeningBegins(),movieLength);
             Date breakEnding = new Date(breakStarting.getTime() + (10 * 60000L));
             if (breakStarting.getTime() < beginning.getTime() && beginning.getTime() <= breakEnding.getTime()) {
                 return true;
@@ -84,5 +90,14 @@ public class ScreeningServiceImp implements ScreeningService {
     public Date getEndingTime(String screeningBegins, int lengthInMinutes) throws ParseException {
         Date date = new SimpleDateFormat("yyyy-MM-dd HH:mm").parse(screeningBegins);
         return new Date(date.getTime() + (lengthInMinutes * 60000L));
+    }
+
+    private ScreeningDto convertEntityToDto(Screening screening) {
+        return new ScreeningDto(screening.getMovieTitle(),screening.getRoomName(),
+                screening.getScreeningBegins(),movieRepository);
+    }
+
+    private Optional<ScreeningDto> convertEntityToDto(Optional<Screening> screening) {
+        return screening.isEmpty() ? Optional.empty() : Optional.of(convertEntityToDto(screening.get()));
     }
 }

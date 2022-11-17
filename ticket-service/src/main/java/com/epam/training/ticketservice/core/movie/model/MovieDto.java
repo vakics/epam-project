@@ -3,13 +3,13 @@ package com.epam.training.ticketservice.core.movie.model;
 import lombok.Value;
 
 @Value
-public class Movie {
+public class MovieDto {
     String title;
     String genre;
     Integer lengthInMinutes;
 
     public String toString() {
-        return title + " (" + genre + ", " + lengthInMinutes + ")";
+        return title + " (" + genre + ", " + lengthInMinutes + " minutes)";
     }
 
     public static Builder builder() {
@@ -36,8 +36,8 @@ public class Movie {
             return this;
         }
 
-        public Movie build() {
-            return new Movie(title,genre,lengthInMinutes);
+        public MovieDto build() {
+            return new MovieDto(title,genre,lengthInMinutes);
         }
     }
 }
