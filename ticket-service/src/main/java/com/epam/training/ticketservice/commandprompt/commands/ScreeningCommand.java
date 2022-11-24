@@ -1,9 +1,12 @@
 package com.epam.training.ticketservice.commandprompt.commands;
 
 import com.epam.training.ticketservice.commandprompt.commands.checks.CheckService;
+import com.epam.training.ticketservice.core.movie.MovieService;
 import com.epam.training.ticketservice.core.movie.persistence.repository.MovieRepository;
 import com.epam.training.ticketservice.core.screening.ScreeningService;
 import com.epam.training.ticketservice.core.screening.model.ScreeningDto;
+import com.epam.training.ticketservice.core.user.UserService;
+import com.epam.training.ticketservice.core.user.persistence.entity.User;
 import lombok.AllArgsConstructor;
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
@@ -15,8 +18,8 @@ import java.util.stream.Collectors;
 @ShellComponent
 public class ScreeningCommand {
     private final ScreeningService screeningService;
-    private final CheckService checkService;
-    private final MovieRepository movieRepository;
+    private final MovieService movieService;
+    private final UserService userService;
 
     @ShellMethod(key = "create screening",value = "Creates screening")
     public String createScreening(String movieTitle, String roomName, String screeningBegins) throws Exception {
@@ -26,16 +29,22 @@ public class ScreeningCommand {
         if (screeningService.isBreakTimeAfter(movieTitle, roomName, screeningBegins)) {
             return "This would start in the break period after another screening in this room";
         }
-        ScreeningDto screeningDto = new ScreeningDto(movieTitle, roomName, screeningBegins,movieRepository);
-        screeningService.createScreening(screeningDto);
-        return screeningDto.toString();
+        if (userService.describe().isPresent() && userService.describe().get().getRole().equals(User.Role.ADMIN)) {
+            ScreeningDto screeningDto = new ScreeningDto(movieTitle, roomName, screeningBegins, movieService);
+            screeningService.createScreening(screeningDto);
+            return screeningDto.toString();
+        }
+        return null;
     }
 
     @ShellMethod(key = "delete screening",value = "Deletes screening")
     public String deleteScreening(String movieTitle,String roomName,String screeningBegins) {
-        ScreeningDto screeningDto = new ScreeningDto(movieTitle, roomName, screeningBegins,movieRepository);
-        screeningService.deleteScreening(movieTitle, roomName, screeningBegins);
-        return "Screening " + screeningDto + " deleted";
+        if (userService.describe().isPresent() && userService.describe().get().getRole().equals(User.Role.ADMIN)) {
+            ScreeningDto screeningDto = new ScreeningDto(movieTitle, roomName, screeningBegins, movieService);
+            screeningService.deleteScreening(movieTitle, roomName, screeningBegins);
+            return "Screening " + screeningDto + " deleted";
+        }
+        return null;
     }
 
     @ShellMethod(key = "list screenings",value = "Listing screenings")

@@ -1,5 +1,6 @@
 package com.epam.training.ticketservice.core.screening;
 
+import com.epam.training.ticketservice.core.movie.MovieService;
 import com.epam.training.ticketservice.core.movie.persistence.repository.MovieRepository;
 import com.epam.training.ticketservice.core.screening.model.ScreeningDto;
 import com.epam.training.ticketservice.core.screening.persistence.entity.Screening;
@@ -20,9 +21,8 @@ import java.util.stream.Collectors;
 @Service
 @AllArgsConstructor
 public class ScreeningServiceImp implements ScreeningService {
-    private final MovieRepository movieRepository;
+    private final MovieService movieService;
     private final ScreeningRepository screeningRepository;
-    private final UserService userService;
 
     @Override
     public List<ScreeningDto> getScreenings() {
@@ -31,31 +31,28 @@ public class ScreeningServiceImp implements ScreeningService {
 
     @Override
     public void deleteScreening(String movieTitle, String roomName, String screeningBegins) {
-        if (userService.describe().isPresent() && userService.describe().get().getRole().equals(User.Role.ADMIN)) {
-            screeningRepository.delete(screeningRepository.findByMovieTitleAndRoomNameAndScreeningBegins(
-                    movieTitle, roomName, screeningBegins));
-        }
+        screeningRepository.delete(screeningRepository.findByMovieTitleAndRoomNameAndScreeningBegins(
+                movieTitle, roomName, screeningBegins));
     }
 
     @Override
-    public void createScreening(ScreeningDto screeningDto) {
-        if (userService.describe().isPresent() && userService.describe().get().getRole().equals(User.Role.ADMIN)) {
-            Screening screening = new Screening(screeningDto.getMovieTitle(),
-                    screeningDto.getRoomName(), screeningDto.getScreeningBegins());
-            screeningRepository.save(screening);
-        }
+    public Screening createScreening(ScreeningDto screeningDto) {
+        Screening screening = new Screening(screeningDto.getMovieTitle(),
+                screeningDto.getRoomName(), screeningDto.getScreeningBegins());
+        screeningRepository.save(screening);
+        return screening;
     }
 
     @Override
     public boolean isOverlapping(String screeningBegins, String movieTitle, String roomName) throws ParseException {
-        int lengthInMinutes = movieRepository.findByTitle(movieTitle).getLengthInMinutes();
+        int lengthInMinutes = movieService.getMovieByTitle(movieTitle).getLengthInMinutes();
         Date ending = getEndingTime(screeningBegins,lengthInMinutes);
         Date beginning = new SimpleDateFormat("yyyy-MM-dd HH:mm").parse(screeningBegins);
         for (ScreeningDto screeningDto : getScreenings()) {
             if (!roomName.equals(screeningDto.getRoomName())) {
                 continue;
             }
-            int movieLength = movieRepository.findByTitle(screeningDto.getMovieTitle()).getLengthInMinutes();
+            int movieLength = movieService.getMovieByTitle(screeningDto.getMovieTitle()).getLengthInMinutes();
             try {
                 Date begins = new SimpleDateFormat("yyyy-MM-dd HH:mm").parse(screeningDto.getScreeningBegins());
                 Date ends = getEndingTime(screeningDto.getScreeningBegins(),movieLength);
@@ -77,7 +74,7 @@ public class ScreeningServiceImp implements ScreeningService {
             if (!screeningDto.getRoomName().equals(roomName)) {
                 continue;
             }
-            int movieLength = movieRepository.findByTitle(screeningDto.getMovieTitle()).getLengthInMinutes();
+            int movieLength = movieService.getMovieByTitle(screeningDto.getMovieTitle()).getLengthInMinutes();
             Date breakStarting = getEndingTime(screeningDto.getScreeningBegins(),movieLength);
             Date breakEnding = new Date(breakStarting.getTime() + (10 * 60000L));
             if (breakStarting.getTime() < beginning.getTime() && beginning.getTime() <= breakEnding.getTime()) {
@@ -87,17 +84,14 @@ public class ScreeningServiceImp implements ScreeningService {
         return false;
     }
 
-    public Date getEndingTime(String screeningBegins, int lengthInMinutes) throws ParseException {
+    private Date getEndingTime(String screeningBegins, int lengthInMinutes) throws ParseException {
         Date date = new SimpleDateFormat("yyyy-MM-dd HH:mm").parse(screeningBegins);
         return new Date(date.getTime() + (lengthInMinutes * 60000L));
     }
 
     private ScreeningDto convertEntityToDto(Screening screening) {
         return new ScreeningDto(screening.getMovieTitle(),screening.getRoomName(),
-                screening.getScreeningBegins(),movieRepository);
+                screening.getScreeningBegins(),movieService);
     }
 
-    private Optional<ScreeningDto> convertEntityToDto(Optional<Screening> screening) {
-        return screening.isEmpty() ? Optional.empty() : Optional.of(convertEntityToDto(screening.get()));
-    }
 }
