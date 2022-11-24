@@ -20,7 +20,7 @@
         <jacoco-maven-plugin.version>0.8.6</jacoco-maven-plugin.version>
         <checkstyle-maven-plugin.version>3.1.2</checkstyle-maven-plugin.version>
         <surefire-maven-plugin.version>3.0.0-M5</surefire-maven-plugin.version>
-        <junit.version>5.7.1</junit.version>
+        <junit-jupiter.version>5.7.1</junit-jupiter.version>
     </properties>
 
     <dependencies>
@@ -37,13 +37,13 @@
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-api</artifactId>
-            <version>${junit.version}</version>
+            <version>${junit-jupiter.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-engine</artifactId>
-            <version>${junit.version}</version>
+            <version>${junit-jupiter.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -66,6 +66,11 @@
             <artifactId>h2</artifactId>
             <scope>runtime</scope>
         </dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-junit-jupiter</artifactId>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
     <dependencyManagement>
 
@@ -85,7 +90,7 @@
                     <dependency>
                         <groupId>org.junit.jupiter</groupId>
                         <artifactId>junit-jupiter-engine</artifactId>
-                        <version>${junit.version}</version>
+                        <version>${junit-jupiter.version}</version>
                     </dependency>
                 </dependencies>
             </plugin>
@@ -118,6 +123,13 @@
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
                 <version>${jacoco-maven-plugin.version}</version>
+                <configuration>
+                    <excludes>
+                        <exclude>com/epam/training/ticketservice/commandprompt/**</exclude>
+                        <exclude>com/epam/training/ticketservice/Application.*</exclude>
+                        <exclude>com/epam/training/ticketservice/core/config/**</exclude>
+                    </excludes>
+                </configuration>
                 <executions>
                     <execution>
                         <goals>
