@@ -6,7 +6,6 @@ import com.epam.training.ticketservice.core.movie.persistence.entity.Movie;
 import com.epam.training.ticketservice.core.screening.model.ScreeningDto;
 import com.epam.training.ticketservice.core.screening.persistence.entity.Screening;
 import com.epam.training.ticketservice.core.screening.persistence.repository.ScreeningRepository;
-import com.epam.training.ticketservice.core.user.UserService;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
@@ -21,9 +20,7 @@ class ScreeningServiceImpTest {
             "Wermin","2022-11-20 11:00");
     private final ScreeningDto SCREENINGDTO = new ScreeningDto("Encanto",
             "Wermin","2022-11-20 11:00", movieService);
-    private static final Movie MOVIEENTITY = new Movie("Encanto","animation",99);
     private final MovieDto MOVIEDTO = new MovieDto("Encanto","animation",99);
-    private final MovieDto MOVIEDTO2 = new MovieDto("Dummy","animation",99);
     private final ScreeningRepository screeningRepository = Mockito.mock(ScreeningRepository.class);
     private final ScreeningServiceImp underTest= new ScreeningServiceImp(movieService,screeningRepository);
 
@@ -74,12 +71,40 @@ class ScreeningServiceImpTest {
     }
 
     @Test
-    void isOverLappingShouldReturnTrueIfTwoMoviesOverlap() throws ParseException {
+    void testisOverLappingShouldReturnTrueIfTwoMoviesOverlap() throws ParseException {
         Mockito.when(screeningRepository.findAll()).thenReturn(List.of(SCREENINGENTITY));
         Mockito.when(movieService.getMovieByTitle("Encanto")).thenReturn(MOVIEDTO);
-        Mockito.when(movieService.getMovieByTitle("Dummy")).thenReturn(MOVIEDTO2);
         boolean actual = underTest.isOverlapping("2022-11-20 11:15","Encanto","Wermin");
         assertTrue(actual);
+        Mockito.verify(screeningRepository).findAll();
+    }
+
+    @Test
+    void testisOverLappingShouldReturnTrueIfTwoMoviesOverlapOtherwise() throws ParseException {
+        Mockito.when(screeningRepository.findAll()).thenReturn(List.of(SCREENINGENTITY));
+        Mockito.when(movieService.getMovieByTitle("Encanto")).thenReturn(MOVIEDTO);
+        boolean actual = underTest.isOverlapping("2022-11-20 10:15","Encanto","Wermin");
+        assertTrue(actual);
+        Mockito.verify(screeningRepository).findAll();
+    }
+
+    @Test
+    void testIsBreakAfterReturnsTrue() throws ParseException {
+        Mockito.when(screeningRepository.findAll()).thenReturn(List.of(SCREENINGENTITY));
+        Mockito.when(movieService.getMovieByTitle("Encanto")).thenReturn(MOVIEDTO);
+        boolean actual = underTest.isBreakTimeAfter("Encanto","Wermin",
+                "2022-11-20 12:40");
+        assertTrue(actual);
+        Mockito.verify(screeningRepository).findAll();
+    }
+
+    @Test
+    void testIsBreakAfterReturnsFalseWhenDifferentRooms() throws ParseException {
+        Mockito.when(screeningRepository.findAll()).thenReturn(List.of(SCREENINGENTITY));
+        Mockito.when(movieService.getMovieByTitle("Encanto")).thenReturn(MOVIEDTO);
+        boolean actual = underTest.isBreakTimeAfter("Encanto","Moldova",
+                "2022-11-24 11:00");
+        assertFalse(actual);
         Mockito.verify(screeningRepository).findAll();
     }
 }
