@@ -1,8 +1,6 @@
 package com.epam.training.ticketservice.commandprompt.commands;
 
-import com.epam.training.ticketservice.commandprompt.commands.checks.CheckService;
 import com.epam.training.ticketservice.core.movie.MovieService;
-import com.epam.training.ticketservice.core.movie.persistence.repository.MovieRepository;
 import com.epam.training.ticketservice.core.screening.ScreeningService;
 import com.epam.training.ticketservice.core.screening.model.ScreeningDto;
 import com.epam.training.ticketservice.core.user.UserService;

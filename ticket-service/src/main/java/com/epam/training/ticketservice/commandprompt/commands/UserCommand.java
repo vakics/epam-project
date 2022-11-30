@@ -47,10 +47,10 @@ public class UserCommand {
             return "You are not signed in";
         }
         if (user.get().getRole().equals(User.Role.ADMIN)) {
-            return "Signed in with privileged account " + user.get().getUsername();
+            return "Signed in with privileged account '" + user.get().getUsername() + "'";
         }
         List<Booking> bookings = bookingRepository.findByUserName(user.get().getUsername());
-        StringBuilder bookingsForUser = new StringBuilder();
+        StringBuilder bookingsForUser;
         if (bookings.isEmpty()) {
             bookingsForUser = new StringBuilder("You have not booked any tickets yet");
         } else {
