@@ -57,4 +57,17 @@ class UserServiceImpTest {
         Optional<UserDto> actual = underTest.describe();
         Assertions.assertEquals(expected, actual);
     }
+
+    @Test
+    void testRegisterUser() {
+        User user = new User("dummy","dummy", User.Role.USER);
+        Mockito.when(userRepository.save(user)).thenReturn(user);
+        underTest.registerUser("dummy","dummy");
+        Mockito.when(userRepository.findByUsernameAndPassword("dummy", "dummy")).thenReturn(Optional.of(user));
+        Optional<UserDto> expected = underTest.login("dummy", "dummy");
+        Optional<UserDto> actual = underTest.describe();
+        Assertions.assertEquals(expected, actual);
+        Mockito.verify(userRepository).save(user);
+        Mockito.verify(userRepository).findByUsernameAndPassword("dummy","dummy");
+    }
 }

@@ -9,6 +9,7 @@ public class BookingDto {
     String screeningBegins;
     String bookedSeats;
     String userName;
+    int basePrice;
 
     public String toString() {
         String[] seats = bookedSeats.split(" ");
@@ -19,6 +20,7 @@ public class BookingDto {
                 formattedSeats.append(", ");
             }
         }
-        return "Seats booked: " + formattedSeats + "; the price for this booking is " + seats.length * 1500 + " HUF";
+        return "Seats booked: " + formattedSeats + "; the price for this booking is " + seats.length * basePrice
+                + " HUF";
     }
 }

@@ -25,6 +25,12 @@ public class ScreeningServiceImp implements ScreeningService {
     }
 
     @Override
+    public ScreeningDto getScreening(String movieTitle, String roomName, String screeningBegins) {
+        return convertEntityToDto(screeningRepository.findByMovieTitleAndRoomNameAndScreeningBegins(
+                movieTitle, roomName, screeningBegins));
+    }
+
+    @Override
     public void deleteScreening(String movieTitle, String roomName, String screeningBegins) {
         screeningRepository.delete(screeningRepository.findByMovieTitleAndRoomNameAndScreeningBegins(
                 movieTitle, roomName, screeningBegins));

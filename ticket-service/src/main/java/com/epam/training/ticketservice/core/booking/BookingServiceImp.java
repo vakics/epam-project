@@ -19,7 +19,8 @@ public class BookingServiceImp implements BookingService {
     @Override
     public Booking createBooking(BookingDto bookingDto) {
         Booking booking = new Booking(bookingDto.getMovieTitle(),bookingDto.getRoomName(),
-                bookingDto.getScreeningBegins(),bookingDto.getBookedSeats(), bookingDto.getUserName());
+                bookingDto.getScreeningBegins(),bookingDto.getBookedSeats(), bookingDto.getUserName(),
+                bookingDto.getBasePrice());
         bookingRepository.save(booking);
         return booking;
     }

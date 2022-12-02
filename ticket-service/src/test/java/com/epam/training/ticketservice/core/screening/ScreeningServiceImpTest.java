@@ -2,7 +2,6 @@ package com.epam.training.ticketservice.core.screening;
 
 import com.epam.training.ticketservice.core.movie.MovieService;
 import com.epam.training.ticketservice.core.movie.model.MovieDto;
-import com.epam.training.ticketservice.core.movie.persistence.entity.Movie;
 import com.epam.training.ticketservice.core.screening.model.ScreeningDto;
 import com.epam.training.ticketservice.core.screening.persistence.entity.Screening;
 import com.epam.training.ticketservice.core.screening.persistence.repository.ScreeningRepository;
@@ -31,6 +30,17 @@ class ScreeningServiceImpTest {
         List<ScreeningDto> actual = underTest.getScreenings();
         assertEquals(expected,actual);
         Mockito.verify(screeningRepository).findAll();
+    }
+
+    @Test
+    void testGetScreening() {
+        Mockito.when(screeningRepository.findByMovieTitleAndRoomNameAndScreeningBegins(SCREENINGDTO.getMovieTitle(),
+                SCREENINGDTO.getRoomName(), SCREENINGDTO.getScreeningBegins())).thenReturn(SCREENINGENTITY);
+        ScreeningDto actual = underTest.getScreening(SCREENINGDTO.getMovieTitle(), SCREENINGDTO.getRoomName(),
+                SCREENINGDTO.getScreeningBegins());
+        assertEquals(SCREENINGDTO,actual);
+        Mockito.verify(screeningRepository).findByMovieTitleAndRoomNameAndScreeningBegins(SCREENINGDTO.getMovieTitle(),
+                SCREENINGDTO.getRoomName(), SCREENINGDTO.getScreeningBegins());
     }
 
     @Test

@@ -6,7 +6,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class BookingDtoTest {
     private static final BookingDto bookingDto = new BookingDto("Encanto","Wermin",
-            "2022-11-28 11:00","5,1 5,2","arthur23");
+            "2022-11-28 11:00","5,1 5,2","arthur23",1500);
 
     @Test
     void testToString() {

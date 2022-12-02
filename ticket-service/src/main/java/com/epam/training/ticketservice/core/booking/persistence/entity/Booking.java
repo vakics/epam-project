@@ -19,12 +19,15 @@ public class Booking {
     private String screeningBegins;
     private String seatsBooked;
     private String userName;
+    private int basePrice;
 
-    public Booking(String movieTitle, String roomName, String screeningBegins, String seatsBooked, String userName) {
+    public Booking(String movieTitle, String roomName, String screeningBegins, String seatsBooked, String userName,
+                   int basePrice) {
         this.movieTitle = movieTitle;
         this.roomName = roomName;
         this.screeningBegins = screeningBegins;
         this.seatsBooked = seatsBooked;
         this.userName = userName;
+        this.basePrice = basePrice;
     }
 }

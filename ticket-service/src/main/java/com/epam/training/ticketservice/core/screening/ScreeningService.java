@@ -9,6 +9,8 @@ import java.util.List;
 public interface ScreeningService {
     List<ScreeningDto> getScreenings();
 
+    ScreeningDto getScreening(String movieTitle,String roomName,String screeningBegins);
+
     void deleteScreening(String movieTitle,String roomName,String screeningBegins);
 
     Screening createScreening(ScreeningDto screeningDto);
